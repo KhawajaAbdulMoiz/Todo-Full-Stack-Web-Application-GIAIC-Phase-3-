@@ -1,0 +1,10 @@
+openai
+mcp
+pydantic
+fastapi
+uvicorn
+python-dotenv
+sqlmodel
+psycopg2-binary
+pyjwt
+cryptography
