@@ -2,8 +2,8 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // This creates a static export suitable for Vercel deployment
-  trailingSlash: true, // Add trailing slashes to all routes
+  // output: 'export', // Commented out for dev mode - enable for Vercel deployment
+  // trailingSlash: true, // Add trailing slashes to all routes
   images: {
     unoptimized: true // Since we're exporting statically, disable image optimization
   },

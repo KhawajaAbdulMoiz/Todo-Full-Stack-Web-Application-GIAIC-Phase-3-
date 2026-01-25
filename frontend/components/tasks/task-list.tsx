@@ -74,9 +74,46 @@ export default function TaskList({ userId }: TaskListProps) {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-        <p className="text-gray-600">Loading your tasks...</p>
+      <div className="space-y-4">
+        {/* Skeleton for task form */}
+        <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl p-1 shadow-lg">
+          <div className="bg-white rounded-xl p-6">
+            <div className="h-6 bg-gray-200 rounded mb-4 skeleton"></div>
+            <div className="space-y-3">
+              <div className="h-10 bg-gray-200 rounded skeleton"></div>
+              <div className="h-10 bg-gray-200 rounded skeleton"></div>
+              <div className="h-10 bg-gray-200 rounded w-24 skeleton"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Skeleton for filters */}
+        <div className="flex justify-between items-center">
+          <div className="h-8 bg-gray-200 rounded w-32 skeleton"></div>
+          <div className="flex space-x-2 bg-gray-100 p-1 rounded-lg">
+            <div className="h-8 bg-white rounded-md w-12 skeleton"></div>
+            <div className="h-8 bg-gray-200 rounded-md w-12 skeleton"></div>
+            <div className="h-8 bg-gray-200 rounded-md w-16 skeleton"></div>
+          </div>
+        </div>
+
+        {/* Skeleton for tasks */}
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="glass rounded-xl p-4 border border-white/30">
+            <div className="flex items-center justify-between mb-3">
+              <div className="h-5 bg-gray-200 rounded w-48 skeleton"></div>
+              <div className="h-6 w-6 bg-gray-200 rounded skeleton"></div>
+            </div>
+            <div className="h-4 bg-gray-200 rounded w-64 skeleton mb-2"></div>
+            <div className="flex justify-between items-center">
+              <div className="h-4 bg-gray-200 rounded w-20 skeleton"></div>
+              <div className="flex space-x-2">
+                <div className="h-8 bg-gray-200 rounded w-16 skeleton"></div>
+                <div className="h-8 bg-gray-200 rounded w-16 skeleton"></div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     );
   }

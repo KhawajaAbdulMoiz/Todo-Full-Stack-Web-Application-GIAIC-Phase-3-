@@ -19,7 +19,9 @@ from src.core.security import get_current_user  # Changed to security instead of
 from src.models.conversation import Conversation, Message, ConversationCreate, MessageCreate
 from src.models.user import User
 from src.agents.chat_agent import ChatAgent
-
+import inspect
+print("CHAT AGENT LOADED FROM:", inspect.getfile(ChatAgent))
+print("CHAT AGENT METHODS:", dir(ChatAgent))
 router = APIRouter()
 
 class ChatRequest(BaseModel):
@@ -116,12 +118,27 @@ async def chat_endpoint(
         # Run AI agent with conversation context
         agent_response = await agent.process_message(request.message, conversation_messages)
 
+        # Process tool calls to replace placeholder user_id with actual user_id
+        processed_tool_calls = []
+        for tool_call in agent_response["tool_calls"]:
+            # Create a copy of the arguments
+            args_copy = tool_call["arguments"].copy()
+            # Replace placeholder user_id with actual user_id if present
+            if "user_id" in args_copy and args_copy["user_id"] == "placeholder":
+                args_copy["user_id"] = str(current_user.id)
+            # Add the processed tool call to the list
+            processed_tool_calls.append({
+                "id": tool_call["id"],
+                "name": tool_call["name"],
+                "arguments": args_copy
+            })
+
         # Store assistant response and tool calls
         assistant_message = Message(
             conversation_id=conversation.id,
             role="assistant",
             content=agent_response["response"],
-            tool_calls=json.dumps(agent_response["tool_calls"]) if agent_response["tool_calls"] else None
+            tool_calls=json.dumps(processed_tool_calls) if processed_tool_calls else None
         )
         db_session.add(assistant_message)
         await db_session.commit()
@@ -131,7 +148,7 @@ async def chat_endpoint(
         return ChatResponse(
             conversation_id=str(conversation.id),
             response=agent_response["response"],
-            tool_calls=[ToolCall(**tc) for tc in agent_response["tool_calls"]] if agent_response["tool_calls"] else [],
+            tool_calls=[ToolCall(**tc) for tc in processed_tool_calls] if processed_tool_calls else [],
             timestamp=agent_response["timestamp"]
         )
 
@@ -144,4 +161,5 @@ async def chat_endpoint(
     except Exception as e:
         # Log the error in a real implementation
         print(f"Error in chat endpoint: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal server error")
+        # Return more specific error details for debugging
+        raise HTTPException(status_code=500, detail=f"Chat endpoint error: {str(e)}")

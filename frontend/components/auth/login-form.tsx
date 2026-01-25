@@ -102,7 +102,7 @@ export default function LoginForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="pl-10 py-5 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                  className="pl-10 py-5 border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
                 />
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="pl-10 py-5 border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
+                  className="pl-10 py-5 border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 rounded-lg"
                 />
               </div>
             </div>

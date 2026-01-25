@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f0f9ff;
+  --background: #eaf4ff;
   --foreground: #0c4a6e;
-  --primary: #0ea5e9;
+  --primary: #4f9cff;
   --primary-foreground: #f0f9ff;
-  --secondary: #bae6fd;
+  --secondary: #7cf3ff;
   --secondary-foreground: #0c4a6e;
-  --accent: #22d3ee;
+  --accent: #7cf3ff;
   --accent-foreground: #0891b2;
   --destructive: #ef4444;
   --destructive-foreground: #fef2f2;
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
-  --card: #ffffff;
+  --card: rgba(255, 255, 255, 0.8);
   --card-foreground: #0f172a;
-  --border: #cbd5e1;
-  --input: #cbd5e1;
-  --ring: #0ea5e9;
+  --border: rgba(255, 255, 255, 0.2);
+  --input: rgba(255, 255, 255, 0.2);
+  --ring: #4f9cff;
 }
 
 @theme inline {
@@ -46,26 +46,26 @@
   :root {
     --background: #0c4a6e;
     --foreground: #f0f9ff;
-    --primary: #0ea5e9;
+    --primary: #4f9cff;
     --primary-foreground: #0c4a6e;
-    --secondary: #0284c7;
+    --secondary: #7cf3ff;
     --secondary-foreground: #f0f9ff;
-    --accent: #22d3ee;
+    --accent: #7cf3ff;
     --accent-foreground: #f0f9ff;
     --destructive: #dc2626;
     --destructive-foreground: #fee2e2;
     --muted: #334155;
     --muted-foreground: #cbd5e1;
-    --card: #1e293b;
+    --card: rgba(30, 41, 59, 0.8);
     --card-foreground: #f1f5f9;
-    --border: #475569;
-    --input: #475569;
+    --border: rgba(71, 85, 105, 0.5);
+    --input: rgba(71, 85, 105, 0.5);
     --ring: #7dd3fc;
   }
 }
 
 body {
-  background: linear-gradient(135deg, var(--background) 0%, #e0f2fe 100%);
+  background: linear-gradient(135deg, #eaf4ff, #f7fbff, #e6f7ff);
   color: var(--foreground);
   font-family: var(--font-sans);
   min-height: 100vh;
@@ -112,6 +112,21 @@ body::before {
   }
 }
 
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .animate-pulse-slow {
   animation: pulse 3s infinite;
 }
@@ -122,6 +137,58 @@ body::before {
   }
   50% {
     opacity: 0.8;
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(79, 156, 255, 0.3);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(79, 156, 255, 0.6);
+  }
+}
+
+.animate-neon-pulse {
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(124, 243, 255, 0.5), 0 0 10px rgba(124, 243, 255, 0.3), 0 0 15px rgba(124, 243, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(124, 243, 255, 0.8), 0 0 20px rgba(124, 243, 255, 0.5), 0 0 30px rgba(124, 243, 255, 0.3);
+  }
+}
+
+.animate-typing {
+  animation: typing 1.5s infinite;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
   }
 }
 
@@ -185,3 +252,61 @@ body::before {
   background-clip: text;
   color: transparent;
 }
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-xl {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Cyber borders */
+.cyber-border {
+  position: relative;
+}
+
+.cyber-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(45deg, var(--primary), var(--accent));
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Typing indicator */
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.typing-dots span:nth-child(3) { animation-delay: 0s; }

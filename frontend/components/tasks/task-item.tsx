@@ -6,6 +6,7 @@ import { Task } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import toast from 'react-hot-toast';
 
 interface TaskItemProps {
   task: Task;
@@ -30,6 +31,7 @@ export default function TaskItem({ task, onTaskUpdate, onTaskDelete }: TaskItemP
 
       setCompleted(updatedTask.completed);
       onTaskUpdate(updatedTask);
+      toast.success(updatedTask.completed ? 'Task completed! 🎉' : 'Task marked as active');
     } catch (err: any) {
       setError(err.message || 'Failed to update task');
       console.error('Error toggling task completion:', err);
@@ -52,7 +54,7 @@ export default function TaskItem({ task, onTaskUpdate, onTaskDelete }: TaskItemP
 
       const updatedTask = await apiClient.updateTask(task.id, updateData);
       onTaskUpdate(updatedTask);
-
+      toast.success('Task updated successfully!');
 
       setIsEditing(false);
     } catch (err: any) {
@@ -69,6 +71,7 @@ export default function TaskItem({ task, onTaskUpdate, onTaskDelete }: TaskItemP
       try {
         await apiClient.deleteTask(task.id);
         onTaskDelete(task.id);
+        toast.success('Task deleted successfully!');
       } catch (err: any) {
         setError(err.message || 'Failed to delete task');
         console.error('Error deleting task:', err);

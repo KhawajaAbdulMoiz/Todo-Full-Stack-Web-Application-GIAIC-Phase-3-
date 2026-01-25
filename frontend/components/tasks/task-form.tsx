@@ -6,6 +6,7 @@ import { CreateTask, Task } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import toast from 'react-hot-toast';
 
 interface TaskFormProps {
   onTaskCreate: (task: Task) => void;
@@ -31,6 +32,7 @@ export default function TaskForm({ onTaskCreate }: TaskFormProps) {
 
       const response = await apiClient.createTask(taskData);
       onTaskCreate(response);
+      toast.success('Task created successfully! 🚀');
 
       setTitle('');
       setDescription('');
@@ -68,8 +70,9 @@ export default function TaskForm({ onTaskCreate }: TaskFormProps) {
             placeholder="What needs to be done?"
             required
             disabled={isLoading}
-            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 py-5 px-4 rounded-lg"
+            className="border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 py-5 px-4 rounded-lg"
           />
+
         </div>
 
         <div className="space-y-2">
@@ -82,8 +85,9 @@ export default function TaskForm({ onTaskCreate }: TaskFormProps) {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Add more details..."
             disabled={isLoading}
-            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 py-5 px-4 rounded-lg"
+            className="bg-white/80 backdrop-blur-md border border-blue-200 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-400/50 py-5 px-4 rounded-xl shadow-sm"
           />
+
         </div>
       </div>
 
