@@ -106,6 +106,25 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ userId, isOpen, onClose }
       setIsTyping(false);
       await new Promise(resolve => setTimeout(resolve, 500));
 
+      // Execute tool calls if any
+      if (data.tool_calls && data.tool_calls.length > 0) {
+        for (const toolCall of data.tool_calls) {
+          try {
+            if (toolCall.name === 'add_task') {
+              await apiClient.createTask({
+                title: toolCall.arguments.title,
+                description: null,
+                completed: false
+              });
+            }
+            // Add more tool executions here as needed
+          } catch (toolError) {
+            console.error('Error executing tool call:', toolError);
+            // Continue with other tool calls even if one fails
+          }
+        }
+      }
+
       // Add assistant response to messages
       const assistantMessage: Message = {
         id: `assistant-${Date.now()}`,
